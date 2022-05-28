@@ -17,7 +17,7 @@ const movieSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Types.ObjectId, // ссылка на модель пользователя фильма
     required: true, // обязательное поле
-    ref: 'user',
+    ref: 'owner',
   },
   thumbnail: {
     type: String, // миниатюрное изображение постера к фильму — это строка
@@ -63,6 +63,6 @@ const movieSchema = new mongoose.Schema({
     type: String, // страна создания фильма — это строка
     required: true, // обязательное поле
   },
-});
+}, { versionKey: false });
 // создаём модель и экспортируем её
 module.exports = mongoose.model('movie', movieSchema);

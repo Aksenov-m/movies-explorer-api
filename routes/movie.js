@@ -30,7 +30,7 @@ movieRouter.delete('/movies/:movieId', celebrate({
   params: Joi.object().keys({
     movieId: Joi.string().length(24).hex().required(),
   }),
-}), deleteMovie); // удаляет карточку по идентификатору
+}), deleteMovie); // удаляет фильм по идентификатору
 
 // экспортируем его
 module.exports = movieRouter;

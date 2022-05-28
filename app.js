@@ -2,19 +2,11 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
-const { celebrate, errors, Joi } = require('celebrate');
-const userRouter = require('./routes/users'); // импортируем роутер user
-const movieRouter = require('./routes/movie'); // импортируем роутер Card
-const auth = require('./middlewares/auth');
+const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const NotFoundError = require('./errors/not-found-err');
 const errorHandling = require('./middlewares/errorHandling');
 const cors = require('./middlewares/cors');
-
-const {
-  login,
-  createUser,
-} = require('./controllers/users'); // импортируем user контроллеры
+const routers = require('./routes');
 
 // Слушаем 3000 портex
 const { PORT = 3000 } = process.env;
@@ -24,29 +16,7 @@ const app = express(); // точку входа
 app.use(cors);
 app.use(requestLogger); // подключаем логгер запросов
 app.use(express.json()); // для собирания JSON-формата
-
-app.post('/signup', celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().required(),
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-  }),
-}), createUser);
-
-app.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-  }),
-}), login);
-
-// авторизация
-app.use(auth);
-app.use(movieRouter); // запускаем Фильмы
-app.use(userRouter); // запускаем user
-app.use((req, res, next) => {
-  next(new NotFoundError('Роутер не найден!'));
-});
+app.use(routers);
 app.use(errorLogger); // подключаем логгер ошибок
 
 app.use(errors()); // обработчик ошибок celebrate
@@ -56,8 +26,7 @@ app.use(helmet());
 // подключаемся к серверу mongo
 mongoose.connect('mongodb://localhost:27017/moviesdb', {
   useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
+  useUnifiedTopology: true,
 });
 
 app.listen(PORT, () => {

@@ -59,7 +59,7 @@ const deleteMovie = (req, res, next) => {
     .orFail(() => new NotFoundError('Фильм с указанным id не найден.'))
     .then((movie) => {
       if (!movie.owner.equals(owner)) {
-        return next(new ForbiddenError('Удалять чужую карточка нельзя.'));
+        return next(new ForbiddenError('Удалять чужуй фильм нельзя.'));
       }
       return movie.remove()
         .then(() => res.send({ data: movie }));

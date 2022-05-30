@@ -14,7 +14,7 @@ movieRouter.post('/movies', celebrate({
   body: Joi.object().keys({
     country: Joi.string().required(),
     director: Joi.string().required(),
-    duration: Joi.string().required(),
+    duration: Joi.number().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
     image: Joi.string().required().pattern(regex),
@@ -22,7 +22,7 @@ movieRouter.post('/movies', celebrate({
     thumbnail: Joi.string().required().pattern(regex),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
-    movieId: Joi.string().required(),
+    movieId: Joi.number().required(),
   }),
 }), createMovie); // создаёт фильм с переданными в теле параметрами
 

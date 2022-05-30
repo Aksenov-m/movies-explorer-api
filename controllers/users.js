@@ -52,8 +52,8 @@ const updateUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные при обновлении профиля.'));
-      } else if (err.name === 'CastError') {
-        next(new BadRequestError('Пользователь по указанному _id не найден.'));
+      } else if (err.code === 11000) {
+        next(new ConflictError('Email занят'));
       } else {
         next(err);
       }

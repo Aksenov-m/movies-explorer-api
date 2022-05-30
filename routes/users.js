@@ -11,7 +11,7 @@ userRouter.get('/users/me', getCurrentUser); // возвращает инфор�
 
 userRouter.patch('/users/me', celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
+    name: Joi.string().required().min(2).max(30),
     email: Joi.string().required().email(),
   }),
 }), updateUser); // обновляет информацию о пользователе (email и имя)

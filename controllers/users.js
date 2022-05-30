@@ -1,4 +1,3 @@
-const { NODE_ENV, JWT_SECRET } = process.env;
 const bcrypt = require('bcryptjs'); // импортируем bcrypt
 const jwt = require('jsonwebtoken'); // импортируем модуль jsonwebtoken
 const NotFoundError = require('../errors/not-found-err');
@@ -6,6 +5,7 @@ const ConflictError = require('../errors/conflict-err');
 const BadRequestError = require('../errors/bad-request-err');
 const UnauthorizedError = require('../errors/unauthorized-err');
 const User = require('../models/user');
+const { JWT_SECRET } = require('../utils/config');
 
 // создаёт пользователя
 const createUser = (req, res, next) => {
@@ -76,7 +76,7 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-key', { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
 
       // вернём токен
       res.send({ token });

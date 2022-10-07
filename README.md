@@ -1,5 +1,13 @@
 ## movies-explorer-api
+---
+### Описание: 
 Репозиторий для приложения бэкенд части проекта `movies-explorer-api` дипломного проекта яндекс практикум. 
+### Технологический стек
+* :point_right: Express.js
+* :point_right: NodeJS
+* :point_right: MongoDB
+#### версия языка: :ru:
+---
 
 ## Запуск проекта
 
